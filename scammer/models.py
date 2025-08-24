@@ -27,3 +27,14 @@ class Like(models.Model):
 
     def __str__(self):
         return self.shop
+
+
+
+class DisLike(models.Model):
+    shop = models.OneToOneField(TheShop, related_name='dislikes', on_delete=models.CASCADE)
+    who_Disliked = models.ManyToManyField(User, related_name='users_dislike')
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.shop
