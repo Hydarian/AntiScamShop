@@ -9,6 +9,9 @@ class TheShop(models.Model):
     author = models.ForeignKey(User, related_name='shops', verbose_name='نویسنده', on_delete=models.CASCADE)
     created = models.DateTimeField(default=timezone.now())
 
+    def likes_count(self):
+        return self.likes.who_liked.count()
+
     def __str__(self):
         return self.name
 
@@ -20,14 +23,13 @@ class TheShop(models.Model):
 
 
 class Like(models.Model):
-    shop = models.OneToOneField(TheShop, related_name='likes', on_delete=models.CASCADE)
-    who_liked = models.ManyToManyField(User, related_name='users_like')
+    shop = models.ForeignKey(TheShop, related_name='likes', on_delete=models.CASCADE)
+    who_liked = models.ForeignKey(User, related_name='users_like', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.shop
-
 
 
 class DisLike(models.Model):
