@@ -12,6 +12,9 @@ class TheShop(models.Model):
     def likes_count(self):
         return self.likes.who_liked.count()
 
+    def dislike_count(self):
+        return self.dislikes.who_Disliked.count()
+
     def __str__(self):
         return self.name
 
