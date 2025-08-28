@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>blog | {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    {% block head %} {% endblock %}
+</head>
+<body dir="rtl">
+{% include 'partials/header.html' %}
+{% include 'partials/navigation.html' %}
+{% block content %} {% endblock %}
+{% include 'partials/footer.html' %}
+</body>
+</html>
