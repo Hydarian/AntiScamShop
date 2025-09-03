@@ -24,10 +24,13 @@ class TheShop(models.Model):
             models.Index(fields=['-created'])
         ]
 
+        verbose_name = 'فروشگاه'
+        verbose_name_plural = 'فروشگاه ها'
+
 
 class Like(models.Model):
     shop = models.ForeignKey(TheShop, related_name='likes', on_delete=models.CASCADE)
-    who_liked = models.ForeignKey(User, related_name='users_like', on_delete=models.CASCADE)
+    who_liked = models.ManyToManyField(User, related_name='users_like')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -35,7 +38,7 @@ class Like(models.Model):
         return self.shop
 
 
-class DisLike(models.Model):
+class Dislike(models.Model):
     shop = models.OneToOneField(TheShop, related_name='dislikes', on_delete=models.CASCADE)
     who_Disliked = models.ManyToManyField(User, related_name='users_dislike')
     created = models.DateTimeField(auto_now_add=True)
@@ -43,3 +46,27 @@ class DisLike(models.Model):
 
     def __str__(self):
         return self.shop
+
+
+class Image(models.Model):
+    shop = models.ForeignKey(TheShop, on_delete=models.CASCADE, related_name='images')
+    img_file = models.ImageField(upload_to='post_images/', blank=True, null=True)
+    title = models.CharField(max_length=250, null=True, blank=True, verbose_name='موضوع')
+    description = models.TextField(null=True, blank=True, verbose_name='توضیحات')
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created']
+        indexes = [
+            models.Index(fields=['-created'])
+        ]
+        verbose_name = 'تصویر'
+        verbose_name_plural = 'تصاویر'
+
+    def __str__(self):
+        if self.title:
+            return self.title
+        else:
+            return 'None'
+
+

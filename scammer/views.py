@@ -15,22 +15,21 @@ class Index(FormView):
 
 class SearchResult(ListView):
     template_name = 'pages/result_search.html'
+    paginate_by = 1
+    model = TheShop
 
-    def get(self, request, *args, **kwargs):
-        self.query = request.GET.get('query')
-        form = SearchForm(request.GET)
+    def get_queryset(self):
+        self.query = self.request.GET.get('query')
+        form = SearchForm(self.request.GET)
         if form.is_valid():
             query = form.cleaned_data['query']
             self.result = TheShop.objects.filter(name__icontains=query)
-        else:
-            self.result = TheShop.objects.none()
-        return super().get(request, *args, **kwargs)
+            return self.result  # اینجا حتما باید queryset واقعی رو برگردونی
+        self.result = TheShop.objects.none()
+        return self.result
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['result'] = self.result
         context['query'] = self.query
         return context
     
-    def get_queryset(self):
-        return self.result
