@@ -20,13 +20,17 @@
                 {% endwith %}
                 <div class="card-body">
                     <h5 class="card-title">{{ item.name }}</h5>
+                    <div class="like-dislike-wrapper">
+                        <span class="like">👍 {{ item.likes_count }}</span>
+                        <span class="dislike">👎 {{ item.dislikes_count }}</span>
+                     </div>
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
 
-    {% if not result %}
+    {% if not page_obj %}
         <div class="alert alert-warning text-center mt-4">
             هیچ نتیجه‌ای پیدا نشد 😔
         </div>
@@ -40,6 +44,7 @@
     transition: all 0.3s ease-in-out;
 }
 </style>
+
 
     {% include 'partials/pagination.html' with page=page_obj %}
 {% endblock %}

@@ -10,10 +10,10 @@ class TheShop(models.Model):
     created = models.DateTimeField(default=timezone.now())
 
     def likes_count(self):
-        return self.likes.who_liked.count()
+        return User.objects.filter(users_like__shop=self).count()
 
-    def dislike_count(self):
-        return self.dislikes.who_Disliked.count()
+    def dislikes_count(self):
+        return User.objects.filter(users_dislike__shop=self).count()
 
     def __str__(self):
         return self.name
@@ -30,7 +30,7 @@ class TheShop(models.Model):
 
 class Like(models.Model):
     shop = models.ForeignKey(TheShop, related_name='likes', on_delete=models.CASCADE)
-    who_liked = models.ManyToManyField(User, related_name='users_like')
+    who_liked = models.ManyToManyField(User, related_name='users_like', null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -40,7 +40,7 @@ class Like(models.Model):
 
 class Dislike(models.Model):
     shop = models.OneToOneField(TheShop, related_name='dislikes', on_delete=models.CASCADE)
-    who_Disliked = models.ManyToManyField(User, related_name='users_dislike')
+    who_Disliked = models.ManyToManyField(User, related_name='users_dislike', blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

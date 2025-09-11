@@ -104,3 +104,39 @@ body {
 .page-a:hover {
   text-decoration: none;
 }
+
+
+.like-dislike-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px; /* فاصله بین لایک و دیسلایک */
+    margin-top: 10px;
+}
+
+.like, .dislike {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: default; /* چون نمیخوای کلیک‌پذیر باشه */
+    background-color: #f0f0f0; /* پس‌زمینه روشن */
+    transition: all 0.2s ease;
+}
+
+.like {
+    color: #28a745; /* سبز */
+}
+
+.dislike {
+    color: #dc3545; /* قرمز */
+}
+
+.like:hover, .dislike:hover {
+    transform: scale(1.1);
+}
+}
