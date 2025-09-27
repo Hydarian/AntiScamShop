@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from django.views.generic import FormView, ListView
+from django.views.generic import FormView, ListView, DetailView
 from .forms import SearchForm
 from .models import TheShop
 
@@ -32,4 +32,17 @@ class SearchResult(ListView):
         context = super().get_context_data(**kwargs)
         context['query'] = self.query
         return context
-    
+
+
+class DetailShop(DetailView):
+    template_name = 'pages/detail.html'
+    model = TheShop
+
+    def get_object(self):
+        self.shop = get_object_or_404(TheShop ,id=self.kwargs['pk'], slug=self.kwargs['slug'])
+        return self.shop
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['shop'] = self.shop
+        return context

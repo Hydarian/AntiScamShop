@@ -1,0 +1,106 @@
+{% extends 'parent/base.html' %}
+{% block title %}detail{% endblock %}
+{% load static %}
+
+
+{% block content %}
+    <div class="container my-5">
+
+    <!-- عنوان فروشگاه -->
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-primary">{{ shop.name }}</h1>
+    </div>
+
+    {% if shop.images.all %}
+        <!-- گالری تصاویر -->
+        <div class="mx-auto" style="max-width: 800px;">
+            {% for img in shop.images.all %}
+            <div class="card border-0 shadow-sm rounded-4 mb-5">
+                {% if img.img_file %}
+                <img src="{{ img.img_file.url }}" class="card-img-top img-fluid" alt="{{ img.title|default:'تصویر' }}">
+                {% else %}
+                <img src="{% static 'placeholder.png' %}" class="card-img-top img-fluid" alt="بدون تصویر">
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- توضیحات فقط یکبار -->
+        <div class="bg-light text-center p-4 rounded-4 shadow-sm mx-auto mb-4" style="max-width: 800px;">
+            <p class="fs-5">{{ shop.images.first.description|default:"بدون توضیحات" }}</p>
+        </div>
+
+        <!-- سوال و دکمه‌ها -->
+        <div class="feedback-wrapper mx-auto text-center mb-4" style="max-width: 800px;">
+            <p class="fs-4 fw-semibold text-dark mb-3">آیا از این فروشگاه راضی هستید؟</p>
+
+            <div class="feedback-buttons">
+                <button type="button" class="feedback-btn like">
+                    👍 <span class="count">{{ shop.likes_count }}</span>
+                </button>
+
+                <button type="button" class="feedback-btn dislike">
+                    👎 <span class="count">{{ shop.dislikes_count }}</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- تاریخ و نویسنده -->
+        <div class="d-flex justify-content-between bg-white border-0 px-4 py-2 text-muted small mx-auto" style="max-width: 800px;">
+            <span class="text-start">{{ shop.images.first.created|date:"Y-m-d H:i" }}</span>
+            <span class="text-end">{{ shop.author.username }}</span>
+        </div>
+
+    {% else %}
+        <p class="text-center text-muted fs-5 mt-4">
+            هیچ تصویری برای این فروشگاه موجود نیست.
+        </p>
+    {% endif %}
+
+</div>
+
+<style>
+body {
+    background-color: white;
+}
+
+.feedback-wrapper .feedback-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.feedback-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .5rem 1.5rem;
+    border: none;
+    border-radius: 999px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.1s ease, box-shadow 0.15s ease;
+}
+
+.feedback-btn.like {
+    background-color: #198754;
+    color: white;
+}
+
+.feedback-btn.dislike {
+    background-color: #dc3545;
+    color: white;
+}
+
+.feedback-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.feedback-btn:active {
+    transform: scale(0.97);
+}
+</style>
+{% endblock %}

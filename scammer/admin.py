@@ -23,7 +23,7 @@ class ShopAdmin(admin.ModelAdmin):
     list_display = ['name', 'author']
     search_fields = ['name']
     inlines = [ImageInline, DislikeInline, LikeInline]
-
+    prepopulated_fields = {'slug': ('name',)}
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):

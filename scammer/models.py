@@ -1,12 +1,15 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
+from django.utils.text import slugify
+
 
 
 # Create your models here.
 class TheShop(models.Model):
     name = models.CharField(max_length=250, verbose_name='نام فروشگاه')
     author = models.ForeignKey(User, related_name='shops', verbose_name='نویسنده', on_delete=models.CASCADE)
+    slug = models.SlugField(max_length=250)
     created = models.DateTimeField(default=timezone.now())
 
     def likes_count(self):
@@ -14,6 +17,12 @@ class TheShop(models.Model):
 
     def dislikes_count(self):
         return User.objects.filter(users_dislike__shop=self).count()
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:  # فقط اگه slug خالیه
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
 
     def __str__(self):
         return self.name
