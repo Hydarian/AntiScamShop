@@ -11,13 +11,9 @@ class TheShop(models.Model):
     author = models.ForeignKey(User, related_name='shops', verbose_name='نویسنده', on_delete=models.CASCADE)
     slug = models.SlugField(max_length=250)
     created = models.DateTimeField(default=timezone.now())
-
-    def likes_count(self):
-        return User.objects.filter(users_like__shop=self).count()
-
-    def dislikes_count(self):
-        return User.objects.filter(users_dislike__shop=self).count()
-    
+    description = models.TextField(verbose_name='توضیحات')
+    like = models.ManyToManyField(User, blank=True,  related_name='likes', verbose_name='لایک ها')
+    dislike = models.ManyToManyField(User,  blank=True, related_name='dislikes', verbose_name='دیس لایک ها')
     def save(self, *args, **kwargs):
         if not self.slug:  # فقط اگه slug خالیه
             self.slug = slugify(self.name)
@@ -37,24 +33,6 @@ class TheShop(models.Model):
         verbose_name_plural = 'فروشگاه ها'
 
 
-class Like(models.Model):
-    shop = models.ForeignKey(TheShop, related_name='likes', on_delete=models.CASCADE)
-    who_liked = models.ManyToManyField(User, related_name='users_like', null=True, blank=True)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.shop
-
-
-class Dislike(models.Model):
-    shop = models.OneToOneField(TheShop, related_name='dislikes', on_delete=models.CASCADE)
-    who_Disliked = models.ManyToManyField(User, related_name='users_dislike', blank=True, null=True)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.shop
 
 
 class Image(models.Model):
