@@ -52,7 +52,7 @@ class DetailShop(DetailView):
         return context
 
 
-class LikeShop(View):
+class LikeShop(LoginRequiredMixin, View):
     http_method_names = ['post']
 
     def post(self, request):
@@ -83,7 +83,7 @@ class LikeShop(View):
         return JsonResponse(response_data)
 
 
-class DisLikeShop(View):
+class DisLikeShop(LoginRequiredMixin, View):
     http_method_names = ['post']
 
     def post(self, request):
@@ -119,3 +119,4 @@ class DisLikeShop(View):
 class Login(LoginView):
     authentication_form = AuthenticationForm
     template_name = 'registration/login.html'
+

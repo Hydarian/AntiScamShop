@@ -11,3 +11,36 @@
       </div>
     </header>
 {% endif %}
+
+{% if request.user.is_authenticated %}
+  <div class="ml-4">
+    <a href="/profile/" class="profile-link">
+      پروفایل من
+    </a>
+  </div>
+{% else %}
+    <div class="ml-4">
+    <a href="{% url 'scam:login' %}" class="profile-link">
+      ورود
+    </a>
+  </div>
+{% endif %}
+
+<style>
+  .profile-link {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #4f46e5; /* رنگ بنفش */
+    color: white;
+    text-decoration: none;
+    border-radius: 9999px; /* حالت گرد */
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+
+  .profile-link:hover {
+    background-color: #3730a3; /* رنگ تیره‌تر هنگام هاور */
+    transform: scale(1.05);
+  }
+</style>
+
