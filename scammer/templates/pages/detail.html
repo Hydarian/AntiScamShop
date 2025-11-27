@@ -64,6 +64,43 @@
 
 
 </div>
+<!-- Comment Section -->
+<div class="comments-section" style="max-width:800px; margin:40px auto; text-align:right; font-family:sans-serif;">
+    <h2 style="margin-bottom:20px; color:#2c3e50;">نظرات کاربران</h2>
+
+    <!-- لیست کامنت‌ها -->
+    <div class="comments-list" style="margin-bottom:30px;">
+        {% if comments %}
+            {% for c in comments %}
+            <div class="comment" style="border:1px solid #ccc; padding:10px 15px; margin-bottom:10px; border-radius:8px; background-color:#f9f9f9;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <strong>{{ c.author.username }}</strong>
+                    <small style="color:#777;">{{ c.created|date:"Y-m-d H:i" }}</small>
+                </div>
+                <div style="white-space:pre-wrap;">{{ c.text }}</div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p style="color:#777;">هیچ نظری ثبت نشده است.</p>
+        {% endif %}
+    </div>
+
+    <!-- فرم کامنت -->
+    {% if user.is_authenticated %}
+    <div class="comment-form" style="border:1px solid #ccc; padding:15px; border-radius:8px; background-color:#eee;">
+        <h4 style="margin-bottom:10px;">نظر خود را بنویسید</h4>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" style="margin-top:10px; padding:8px 16px; border:none; border-radius:6px; background-color:#2c3e50; color:white; cursor:pointer;">
+                ارسال کامنت
+            </button>
+        </form>
+    </div>
+    {% else %}
+        <p style="color:#777; text-align:center;">برای ارسال نظر، لطفاً <a href="{% url 'login' %}">وارد شوید</a>.</p>
+    {% endif %}
+</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     $(document).ready(function () {

@@ -57,3 +57,8 @@ class Image(models.Model):
             return 'None'
 
 
+class Comment(models.Model):
+    shop = models.ForeignKey(TheShop, on_delete=models.CASCADE, related_name='comments')
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)

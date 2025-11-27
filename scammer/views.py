@@ -1,12 +1,14 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, get_object_or_404
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.http import HttpResponse, JsonResponse
 from django.views.generic import FormView, ListView, DetailView, View, TemplateView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import SearchForm
-from .models import TheShop, Image
+from django.views.generic.edit import FormMixin
+from . import urls
+from .forms import SearchForm, CommentForm
+from .models import TheShop, Image, Comment
 
 
 # Create your views here.
@@ -38,19 +40,37 @@ class SearchResult(ListView):
         return context
 
 
-class DetailShop(DetailView):
+class DetailShop(LoginRequiredMixin, FormMixin, DetailView):
     template_name = 'pages/detail.html'
     model = TheShop
+    form_class = CommentForm
+
 
     def get_object(self):
         self.shop = get_object_or_404(TheShop, id=self.kwargs['pk'], slug=self.kwargs['slug'])
         return self.shop
 
+    def get_success_url(self):
+        return reverse("scam:detail", kwargs={"pk": self.object.pk, 'slug': self.object.slug})
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['shop'] = self.shop
+        context['form'] = self.get_form
+        context['comments'] = self.shop.comments.all()
         return context
 
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        self.object = self.get_object()
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author = request.user
+            comment.shop = self.object
+            comment.save()
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
 
 class LikeShop(LoginRequiredMixin, View):
     http_method_names = ['post']
