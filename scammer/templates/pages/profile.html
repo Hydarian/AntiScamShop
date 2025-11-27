@@ -35,8 +35,8 @@
           <td class="px-6 py-4">{{ post.name }}</td>
           <td class="px-6 py-4">{{ post.created_at|date:"Y-m-d H:i" }}</td>
           <td class="px-6 py-4 text-center">
-            <a href="" class="text-blue-500 hover:underline mx-1">ویرایش</a>
-            <a href="" class="text-red-500 hover:underline mx-1">حذف</a>
+            <a href="{% url 'scam:edit_post' pk=post.id slug=post.slug %}" class="text-blue-500 hover:underline mx-1">ویرایش</a>
+            <a href="{% url 'scam:delete_post' post.id %}" class="text-red-500 hover:underline mx-1">حذف</a>
           </td>
         </tr>
         {% empty %}

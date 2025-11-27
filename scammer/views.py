@@ -2,8 +2,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.http import HttpResponse, JsonResponse
-from django.views.generic import FormView, ListView, DetailView, View, TemplateView, CreateView
-from django.contrib.auth.views import LoginView
+from django.views.generic import FormView, ListView, DetailView, View, TemplateView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import SearchForm
 from .models import TheShop, Image
@@ -143,3 +143,30 @@ class CreatePost(LoginRequiredMixin, CreateView):
             for f in self.request.FILES.getlist('images'):
                 Image.objects.create(shop=self.object, img_file=f)
         return response
+
+
+class EditPost(LoginRequiredMixin, UpdateView):
+    model = TheShop
+    fields = ['name', 'slug', 'description']
+    template_name = "pages/theshop_update_form.html"
+    success_url = reverse_lazy('scam:profile')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+
+        # گرفتن فایل تصویر جدید، اختیاری
+        img_file = self.request.FILES.get('img_file')
+        if img_file:
+            # فقط وقتی کاربر فایل جدید انتخاب کرد، تصویر جدید ایجاد می‌کنیم
+            Image.objects.create(shop=self.object, img_file=img_file)
+
+        # اگر هیچ فایلی انتخاب نشده، تصویر قبلی دست نخورده می‌مونه
+        return response
+
+
+class DeletePost(LoginRequiredMixin, DeleteView):
+    model = TheShop
+    success_url = reverse_lazy('scam:profile')
+    template_name = 'pages/theshop_confirm_delete.html'
+
+

@@ -1,0 +1,102 @@
+{% extends 'parent/base.html' %}
+{% block title %}create post{% endblock %}
+
+
+{% block content %}
+<style>
+    .form-box {
+        background: #fff;
+        padding: 25px;
+        width: 400px;
+        margin: 40px auto;
+        border-radius: 8px;
+        box-shadow: 0 0 8px rgba(0,0,0,0.1);
+        direction: rtl;
+    }
+
+    .form-box h2 {
+        margin-bottom: 20px;
+        text-align: center;
+        font-family: sans-serif;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: bold;
+        font-size: 14px;
+        font-family: sans-serif;
+    }
+
+    input[type="text"],
+    textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        font-size: 15px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+        font-family: sans-serif;
+        transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus {
+        border-color: #555;
+        outline: none;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        background: #0077ff;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        font-family: sans-serif;
+    }
+
+    button:hover {
+        background: #0059c9;
+    }
+
+    .errorlist {
+        color: red;
+        margin-top: -8px;
+        margin-bottom: 10px;
+        font-size: 13px;
+    }
+</style>
+
+<div class="form-box">
+    <h2>ویرایش پست</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <label>{{ form.name.label }}</label>
+        {{ form.name }}
+        {{ form.name.errors }}
+
+        <label>{{ form.slug.label }}</label>
+        {{ form.slug }}
+        {{ form.slug.errors }}
+
+        <label>{{ form.description.label }}</label>
+        {{ form.description }}
+        {{ form.description.errors }}
+
+        {% if object.images.exists %}
+            <label>عکس‌ها:</label>
+            <input type="file" name="img_file">
+
+
+        {% endif %}
+
+        <button type="submit">ثبت</button>
+    </form>
+</div>
+
+{% endblock %}

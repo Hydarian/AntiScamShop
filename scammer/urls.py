@@ -15,4 +15,6 @@ urlpatterns = [
     path('profile/', views.Profile.as_view(), name='profile'),
     path('logout', LogoutView.as_view(template_name='registration/logged_out.html'), name='logout'),
     path('create-post', views.CreatePost.as_view(), name='create_post'),
+    path('edit-post/<int:pk>/<slug:slug>/', views.EditPost.as_view(), name='edit_post'),
+    path('delete/<int:pk>', views.DeletePost.as_view(), name='delete_post')
 ]
