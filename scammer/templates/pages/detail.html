@@ -1,0 +1,144 @@
+{% extends 'parent/base.html' %}
+{% block title %}detail{% endblock %}
+{% load static %}
+
+
+
+{% block content %}
+<div class="shop-detail-content mx-auto my-5" style="max-width: 1000px; text-align: center;">
+
+  <!-- عنوان فروشگاه -->
+  <h1 class="display-4 fw-bold text-primary mb-4">{{ shop.name }}</h1>
+
+  {% if shop.images.count > 0 %}
+
+    {% if shop.images.count == 1 %}
+      <!-- فقط یک تصویر -->
+      {% with img=shop.images.first %}
+        <div class="single-img mb-4">
+          {% if img.img_file %}
+            <img src="{{ img.img_file.url }}" alt="{{ img.title|default:'تصویر' }}" style="width:100%; max-width:900px; height:auto; object-fit:contain; border-radius:12px;">
+          {% else %}
+            <img src="{% static 'placeholder.png' %}" alt="بدون تصویر" style="width:100%; max-width:900px; height:auto; object-fit:contain; border-radius:12px;">
+          {% endif %}
+        </div>
+      {% endwith %}
+
+    {% else %}
+      <!-- گالری چند تصویر 3 ستونه -->
+      <div class="grid-gallery mb-4" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; justify-items:center;">
+        {% for img in shop.images.all %}
+          <div class="grid-item">
+            {% if img.img_file %}
+              <img src="{{ img.img_file.url }}" alt="{{ img.title|default:'تصویر' }}" style="width:100%; max-width:300px; height:220px; object-fit:cover; border-radius:12px;">
+            {% else %}
+              <img src="{% static 'placeholder.png' %}" alt="بدون تصویر" style="width:100%; max-width:300px; height:220px; object-fit:cover; border-radius:12px;">
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  {% else %}
+    <p class="text-center text-muted fs-5 mt-4">هیچ تصویری برای این فروشگاه موجود نیست.</p>
+  {% endif %}
+     <!-- تاریخ و نویسنده -->
+    <div class="meta-info d-flex justify-content-between text-muted small mx-auto" style="max-width:300px;">
+      <span>{{ shop.images.first.created|date:"Y-m-d H:i" }}</span>
+      <span>{{ shop.author.username }}</span>
+    </div>
+
+    <!-- دکمه‌ها -->
+    <div class="feedback-wrapper mb-4">
+      <p class="fs-4 fw-semibold text-dark mb-3">آیا از این فروشگاه راضی هستید؟</p>
+      <div class="feedback-buttons" data-shop-id="{{ shop.id }}" style="display:flex; justify-content:center; gap:1rem;">
+        <button type="button" class="feedback-btn like" style="background-color:#198754; color:white; border:none; border-radius:999px; padding:.5rem 1.25rem; font-weight:600; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.08);">👍 <span class="like-count">{{ shop.like.count }}</span></button>
+        <button type="button" class="feedback-btn dislike" style="background-color:#dc3545; color:white; border:none; border-radius:999px; padding:.5rem 1.25rem; font-weight:600; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.08);">👎 <span class="dislike-count">{{ shop.dislike.count }}</span></button>
+      </div>
+    </div>
+
+        <!-- توضیحات فقط یکبار -->
+    <div class="description-box mb-4" style="background-color:#f8f9fa; padding:16px 24px; border-radius:12px;">
+        <p>{{ shop.description }}</p>
+    </div>
+
+
+</div>
+<!-- Comment Section -->
+<div class="comments-section" style="max-width:800px; margin:40px auto; text-align:right; font-family:sans-serif;">
+    <h2 style="margin-bottom:20px; color:#2c3e50;">نظرات کاربران</h2>
+
+    <!-- لیست کامنت‌ها -->
+    <div class="comments-list" style="margin-bottom:30px;">
+        {% if comments %}
+            {% for c in comments %}
+            <div class="comment" style="border:1px solid #ccc; padding:10px 15px; margin-bottom:10px; border-radius:8px; background-color:#f9f9f9;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <strong>{{ c.author.username }}</strong>
+                    <small style="color:#777;">{{ c.created|date:"Y-m-d H:i" }}</small>
+                </div>
+                <div style="white-space:pre-wrap;">{{ c.text }}</div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p style="color:#777;">هیچ نظری ثبت نشده است.</p>
+        {% endif %}
+    </div>
+
+    <!-- فرم کامنت -->
+    {% if user.is_authenticated %}
+    <div class="comment-form" style="border:1px solid #ccc; padding:15px; border-radius:8px; background-color:#eee;">
+        <h4 style="margin-bottom:10px;">نظر خود را بنویسید</h4>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" style="margin-top:10px; padding:8px 16px; border:none; border-radius:6px; background-color:#2c3e50; color:white; cursor:pointer;">
+                ارسال کامنت
+            </button>
+        </form>
+    </div>
+    {% else %}
+        <p style="color:#777; text-align:center;">برای ارسال نظر، لطفاً <a href="{% url 'login' %}">وارد شوید</a>.</p>
+    {% endif %}
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $(document).ready(function () {
+        $('.feedback-btn.like').click(function () {
+            var shop_id = $(this).closest('.feedback-buttons').data('shop-id');
+            var likecountspan = $(this).closest('.feedback-buttons').find('.like-count');
+            var dislikecountspan = $(this).closest('.feedback-buttons').find('.dislike-count');
+
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'scam:like_shop' %}',
+                data: {'shop_id': shop_id, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                success: function(data) {
+                    likecountspan.text(data.likes_count);
+                    dislikecountspan.text(data.dislikes_count);
+
+                }
+
+            });
+        });
+
+        $('.feedback-btn.dislike').click(function () {
+            var shop_id = $(this).closest('.feedback-buttons').data('shop-id');
+            var likecountspan = $(this).closest('.feedback-buttons').find('.like-count');
+            var dislikecountspan = $(this).closest('.feedback-buttons').find('.dislike-count');
+
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'scam:dislike_shop' %}',
+                data: {'shop_id': shop_id, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                success: function(data) {
+                    likecountspan.text(data.likes_count);
+                    dislikecountspan.text(data.dislikes_count);
+                }
+
+            });
+        });
+    });
+</script>
+
+{% endblock %}

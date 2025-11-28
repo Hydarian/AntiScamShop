@@ -1,0 +1,142 @@
+/* بدنه‌ی کل صفحه */
+body {
+    margin: 0;
+    font-family: tahoma, sans-serif;
+    background: #fff;
+}
+
+/* فرم */
+.search-form {
+    display: flex;
+    gap: 10px;
+}
+
+.search-input {
+    padding: 12px 20px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    font-size: 16px;
+    width: 400px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.search-input:focus {
+    border-color: #4285f4;
+    box-shadow: 0 0 6px rgba(66,133,244,0.5);
+}
+
+.search-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px;
+    background: #4285f4;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.search-btn:hover {
+    background: #3367d6;
+}
+
+.search-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh; /* ارتفاع دلخواه برای وسط صفحه */
+}
+
+.pagination{
+	width: 400px;
+	margin: 0 auto;
+	margin: 40px auto;
+}
+.square{
+	padding: 2px 2px;
+	display: inline-block;
+	margin-right: 5px;
+	width: 35px;
+	height: 35px;
+	background-color: #941616;
+	color: white;
+	text-align: center;
+	border-radius: 5px;
+	font-size: 20px;
+}
+
+.square-red{
+	padding: 2px 2px;
+	display: inline-block;
+	margin-right: 5px;
+	width: 35px;
+	height: 35px;
+	background-color: #2e247e;
+	color: white;
+	text-align: center;
+	border-radius: 50%;
+	font-size: 20px;
+}
+.point{
+	display: inline-block;
+	margin-right: 5px;
+	width: 35px;
+	height: 35px;
+	color: #000000;
+	text-align: center;
+	font-size: 30px;
+}
+
+.page-a:active {
+  text-decoration: none;
+}
+
+.page-a:visited {
+	text-decoration: none;
+	color: white;
+}
+
+.page-a:link {
+  text-decoration: none;
+}
+
+.page-a:hover {
+  text-decoration: none;
+}
+
+
+.like-dislike-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px; /* فاصله بین لایک و دیسلایک */
+    margin-top: 10px;
+}
+
+.like, .dislike {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: default; /* چون نمیخوای کلیک‌پذیر باشه */
+    background-color: #f0f0f0; /* پس‌زمینه روشن */
+    transition: all 0.2s ease;
+}
+
+.like {
+    color: #28a745; /* سبز */
+}
+
+.dislike {
+    color: #dc3545; /* قرمز */
+}
+
+.like:hover, .dislike:hover {
+    transform: scale(1.1);
+}
+}

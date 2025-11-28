@@ -1,0 +1,14 @@
+{% extends 'parent/base.html' %}
+{% block title %}home page{% endblock %}
+
+
+{% block content %}
+
+    <div class="search-wrapper">
+    <form class="search-form" method="get" action="{% url 'scam:result' %}">
+        <input class="search-input" name="query" type="search" placeholder="جستجو...">
+        <button class="search-btn" type="submit">🔍</button>
+    </form>
+    </div>
+
+{% endblock %}

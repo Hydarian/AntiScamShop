@@ -1,0 +1,52 @@
+{% extends 'parent/base.html' %}
+{% block title %}result search{% endblock %}
+
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">نتایج جستجو برای "{{ query }}"</h2>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for item in object_list %}
+            <a href="{% url 'scam:detail' pk=item.id slug=item.slug %}">
+                <div class="col">
+                    <div class="card h-100 shadow-sm rounded-3 text-center hover-shadow">
+                        {% with image=item.images.last %}
+                            {% if image and image.img_file %}
+                                <img src="{{item.images.last.img_file.url|default:'https://via.placeholder.com/300x150.png?text=No+Image' }}"
+                             class="card-img-top" alt="{{ item.name }}">
+                            {% else %}
+                                <img src="https://via.placeholder.com/300x150.png?text=No+Image" class="card-img-top" alt="{{ item.name }}">
+                            {% endif %}
+                        {% endwith %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.name }}</h5>
+                            <div class="like-dislike-wrapper">
+                                <span class="like">👍 {{ item.likes_count }}</span>
+                                <span class="dislike">👎 {{ item.dislikes_count }}</span>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+
+    {% if not page_obj %}
+        <div class="alert alert-warning text-center mt-4">
+            هیچ نتیجه‌ای پیدا نشد 😔
+        </div>
+    {% endif %}
+</div>
+
+<style>
+.hover-shadow:hover {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    transform: translateY(-3px);
+    transition: all 0.3s ease-in-out;
+}
+</style>
+
+
+    {% include 'partials/pagination.html' with page=page_obj %}
+{% endblock %}

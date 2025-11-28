@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,3 +9,54 @@
 
 </body>
 </html>
+=======
+{% if request.path != '/login' and request.path != '/login/' and request.path != '/' %}
+    <header class="bg-gray-100 shadow-sm py-3">
+      <div class="container mx-auto flex justify-between items-center">
+        <a href="/" class="text-xl font-bold"></a>
+
+        <!-- Search Bar بالای صفحه -->
+        <form class="flex w-1/3" method="get" action="{% url 'scam:result' %}">
+          <input class="flex-grow rounded-l-full border px-4 py-2" type="search" name="query" placeholder="جستجو...">
+          <button class="bg-blue-500 text-white px-4 py-2 rounded-r-full" type="submit">🔍</button>
+        </form>
+      </div>
+    </header>
+{% endif %}
+<a href='{% url 'scam:index' %}'>خانه</a>
+
+{% if request.user.is_authenticated %}
+  <div class="ml-4">
+    <a href="/profile/" class="profile-link">
+      پروفایل من
+    </a>
+  </div>
+{% else %}
+    <div class="ml-4">
+    <a href="{% url 'scam:login' %}" class="profile-link">
+      ورود
+    </a>
+  </div>
+{% endif %}
+
+
+  <!-- css -->
+<style>
+  .profile-link {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #4f46e5; /* رنگ بنفش */
+    color: white;
+    text-decoration: none;
+    border-radius: 9999px; /* حالت گرد */
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+
+  .profile-link:hover {
+    background-color: #3730a3; /* رنگ تیره‌تر هنگام هاور */
+    transform: scale(1.05);
+  }
+</style>
+
+>>>>>>> restore-project
