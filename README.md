@@ -1,2 +1,4 @@
 # AntiScamShop
-A Django project for managing shops that scam people and user posts with authentication and password reset and comments  features.
+
+
+## A Django project to track scam shops, user posts, comments, and authentication features.
