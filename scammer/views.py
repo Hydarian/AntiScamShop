@@ -1,7 +1,6 @@
-<<<<<<< HEAD
+
 from django.shortcuts import render
 from django.http import HttpResponse
-=======
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
@@ -13,16 +12,15 @@ from django.views.generic.edit import FormMixin
 from . import urls
 from .forms import SearchForm, CommentForm, RegisterForm
 from .models import TheShop, Image, Comment
->>>>>>> restore-project
+
 
 
 # Create your views here.
 
 
-<<<<<<< HEAD
 def index(request):
     return HttpResponse('index')
-=======
+
 class Index(FormView):
     template_name = 'pages/index.html'
     form_class = SearchForm
@@ -209,4 +207,4 @@ class ResetPassword(PasswordResetView):
     template_name = 'registration/reset_password.html'
     email_template_name = 'registration/reset_password_email.html'
     success_url = reverse_lazy('scam:profile')
->>>>>>> restore-project
+    restore-project

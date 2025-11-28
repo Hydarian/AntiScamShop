@@ -1,8 +1,8 @@
 from django.contrib import admin
-<<<<<<< HEAD
+
 
 # Register your models here.
-=======
+
 from .models import TheShop, Image
 
 
@@ -22,4 +22,4 @@ class ShopAdmin(admin.ModelAdmin):
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
     list_display = ['title', 'shop', 'created']
->>>>>>> restore-project
+

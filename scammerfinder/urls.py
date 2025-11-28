@@ -16,19 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-<<<<<<< HEAD
-=======
+
 from django.conf.urls.static import static
 from django.conf import settings
->>>>>>> restore-project
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('scammer.urls', namespace='scam')),
-]
-<<<<<<< HEAD
-=======
 
+]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
->>>>>>> restore-project
+

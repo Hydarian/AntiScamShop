@@ -1,20 +1,17 @@
 from . import views
-<<<<<<< HEAD
 from django.urls import path
-=======
 from django.urls import path, reverse_lazy
 from . import views
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth import views as auth_views
->>>>>>> restore-project
 
 app_name = 'scam'
 
 urlpatterns = [
-<<<<<<< HEAD
+
     path('', views.index, name='index'),
-]
-=======
+
+
     path('', views.Index.as_view(), name='index'),
     path('result', views.SearchResult.as_view(), name='result'),
     path('detail/<int:pk>/<slug:slug>', views.DetailShop.as_view(), name='detail'),
@@ -35,4 +32,4 @@ urlpatterns = [
     path('password-reset-complete/', auth_views.PasswordResetCompleteView.as_view(template_name='registration/reset_password_complete.html'), name='password_reset_complete'),
 
 ]
->>>>>>> restore-project
+
