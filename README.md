@@ -19,9 +19,9 @@ A Django project to track scam shops, user posts, comments, and authentication f
 1. Clone the repository: 
 git clone https://github.com/Hydarian/AntiScamShop.git
 2. create virtual environment:
-```bash python -m venv venv
+```bash python -m venv venv ```
 4. Activate the virtual environment:
-venv\Scripts\activate
+```bash venv\Scripts\activate ```
 5. Install dependencies:
 pip install -r requirements.txt
 6. Apply migration:
