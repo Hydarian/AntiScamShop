@@ -4,7 +4,7 @@
 A Django project to track scam shops, user posts, comments, and authentication features.
 
 
-### features
+### features:
 
 
 * User can serach the shop name for seeing if the shop is scammer
