@@ -22,15 +22,15 @@ git clone https://github.com/Hydarian/AntiScamShop.git
 python -m venv venv
 3. Activate the virtual environment:
 venv\Scripts\activate
-.4 Install dependencies:
+4. Install dependencies:
 pip install -r requirements.txt
-.5 Apply migration:
+5. Apply migration:
 python manage.py migrate
-.6 create a superuser (optional, for admin access):
+6. create a superuser (optional, for admin access):
 python manage.py createsuperuser
-.7 Run the development server:
+7. Run the development server:
 python manage.py runserver
-.8 Open your browser and go to:
+8. Open your browser and go to:
 http://127.0.0.1:8000/
 
 Notes:
