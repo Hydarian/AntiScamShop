@@ -118,8 +118,8 @@ ul.errorlist {
             <button type="submit">Login</button>
 
             <div class="links">
-                <a href="">Forgot Password?</a> |
-                <a href="">Sign Up</a>
+                <a href="{% url 'scam:password_reset' %}">فراموشی رمز عبور</a> |
+                <a href="{% url 'scam:register' %}">ثبت نام</a>
             </div>
         </form>
     </div>

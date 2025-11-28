@@ -1,0 +1,113 @@
+{% extends 'parent/base.html' %}
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+<style>
+    .register-wrapper {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #a0c9ff, #e2edff);
+        padding: 20px;
+        font-family: "Segoe UI", sans-serif;
+    }
+
+    .register-box {
+        width: 100%;
+        max-width: 420px;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(10px);
+        padding: 30px;
+        border-radius: 18px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 0.45s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .register-box h2 {
+        text-align: center;
+        font-size: 24px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 25px;
+    }
+
+    .register-box p label {
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #444;
+        display: block;
+    }
+
+    .register-box input {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        margin-bottom: 15px;
+        font-size: 14px;
+        transition: 0.2s;
+    }
+
+    .register-box input:focus {
+        border-color: #4a90e2;
+        box-shadow: 0 0 6px rgba(74,144,226,0.4);
+        outline: none;
+    }
+
+    .register-btn {
+        width: 100%;
+        padding: 12px;
+        background: #4a90e2;
+        border: none;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .register-btn:hover {
+        background: #3b7bc2;
+    }
+
+    .login-link {
+        margin-top: 15px;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .login-link a {
+        color: #4a90e2;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="register-wrapper">
+    <div class="register-box">
+        <h2>Create Account</h2>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit" class="register-btn">Register</button>
+        </form>
+
+
+    </div>
+</div>
+
+{% endblock %}

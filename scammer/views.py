@@ -3,11 +3,11 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponse, JsonResponse
 from django.views.generic import FormView, ListView, DetailView, View, TemplateView, CreateView, UpdateView, DeleteView
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import FormMixin
 from . import urls
-from .forms import SearchForm, CommentForm
+from .forms import SearchForm, CommentForm, RegisterForm
 from .models import TheShop, Image, Comment
 
 
@@ -50,6 +50,7 @@ class DetailShop(LoginRequiredMixin, FormMixin, DetailView):
         self.shop = get_object_or_404(TheShop, id=self.kwargs['pk'], slug=self.kwargs['slug'])
         return self.shop
 
+    # redirect the user to the current page after comment
     def get_success_url(self):
         return reverse("scam:detail", kwargs={"pk": self.object.pk, 'slug': self.object.slug})
 
@@ -60,6 +61,7 @@ class DetailShop(LoginRequiredMixin, FormMixin, DetailView):
         context['comments'] = self.shop.comments.all()
         return context
 
+    # saving the comments
     def post(self, request, *args, **kwargs):
         form = self.get_form()
         self.object = self.get_object()
@@ -174,13 +176,10 @@ class EditPost(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         response = super().form_valid(form)
 
-        # گرفتن فایل تصویر جدید، اختیاری
         img_file = self.request.FILES.get('img_file')
         if img_file:
-            # فقط وقتی کاربر فایل جدید انتخاب کرد، تصویر جدید ایجاد می‌کنیم
             Image.objects.create(shop=self.object, img_file=img_file)
 
-        # اگر هیچ فایلی انتخاب نشده، تصویر قبلی دست نخورده می‌مونه
         return response
 
 
@@ -190,3 +189,14 @@ class DeletePost(LoginRequiredMixin, DeleteView):
     template_name = 'pages/theshop_confirm_delete.html'
 
 
+
+class RegisterView(CreateView):
+    template_name = "registration/register.html"
+    form_class = RegisterForm
+    success_url = reverse_lazy('scam:login')
+
+
+class ResetPassword(PasswordResetView):
+    template_name = 'registration/reset_password.html'
+    email_template_name = 'registration/reset_password_email.html'
+    success_url = reverse_lazy('scam:profile')
