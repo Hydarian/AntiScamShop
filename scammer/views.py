@@ -207,4 +207,4 @@ class ResetPassword(PasswordResetView):
     template_name = 'registration/reset_password.html'
     email_template_name = 'registration/reset_password_email.html'
     success_url = reverse_lazy('scam:profile')
-    restore-project
+
